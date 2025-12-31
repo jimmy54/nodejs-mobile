@@ -1101,16 +1101,25 @@
           ],
         }],
         ['OS=="linux"', {
-          'sources': [
-            '<(V8_ROOT)/src/base/debug/stack_trace_posix.cc',
-            '<(V8_ROOT)/src/base/platform/platform-linux.cc',
-          ],
           'link_settings': {
             'libraries': [
               '-ldl',
               '-lrt'
             ],
           },
+          'target_conditions': [
+            ['_toolset=="host" and host_os=="mac"', {
+              'sources': [
+                '<(V8_ROOT)/src/base/debug/stack_trace_posix.cc',
+                '<(V8_ROOT)/src/base/platform/platform-macos.cc',
+              ]
+            }, {
+              'sources': [
+                '<(V8_ROOT)/src/base/debug/stack_trace_posix.cc',
+                '<(V8_ROOT)/src/base/platform/platform-linux.cc',
+              ]
+            }],
+          ],
         }],
         ['OS in "aix os400"', {
           'variables': {

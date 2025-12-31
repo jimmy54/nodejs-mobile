@@ -1,5 +1,6 @@
 {
   'variables': {
+    'is_ohos%': 0,
     'v8_use_siphash%': 0,
     'v8_trace_maps%': 0,
     'v8_enable_pointer_compression%': 0,
@@ -125,7 +126,7 @@
           '-Wl,-bnoerrmsg',
         ],
       }],
-      ['OS == "linux" and llvm_version != "0.0"', {
+      ['OS == "linux" and llvm_version != "0.0" and is_ohos!=1', {
         'libraries': ['-latomic'],
       }],
     ],

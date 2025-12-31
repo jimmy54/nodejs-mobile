@@ -8,6 +8,9 @@
 #include <cstdint>
 #include <string>
 
+// Include string-16.h to get std::char_traits<uint16_t> specialization
+#include "src/inspector/string-16.h"
+
 // Conversion routines between UT8 and UTF16, used by string-16.{h,cc}. You may
 // want to use string-16.h directly rather than these.
 namespace v8_inspector {

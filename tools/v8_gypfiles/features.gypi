@@ -68,7 +68,7 @@
       }, {
         'v8_enable_system_instrumentation': 0,
       }],
-      ['OS=="linux"', {
+      ['OS=="linux" and host_os!="mac"', {
         # Sets -dV8_ENABLE_PRIVATE_MAPPING_FORK_OPTIMIZATION.
         #
         # This flag speeds up the performance of fork/execve on Linux systems for

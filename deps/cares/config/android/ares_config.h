@@ -35,10 +35,10 @@
 #define GETNAMEINFO_TYPE_ARG7 int
 
 /* Specifies the number of arguments to getservbyport_r */
-#define GETSERVBYPORT_R_ARGS
+#define GETSERVBYPORT_R_ARGS 6
 
 /* Specifies the number of arguments to getservbyname_r */
-#define GETSERVBYNAME_R_ARGS
+#define GETSERVBYNAME_R_ARGS 6
 
 /* Define to 1 if you have AF_INET6. */
 #define HAVE_AF_INET6
@@ -127,7 +127,7 @@
 // nodejs-mobile patch: wrap with ifndef __ANDROID__
 /* Define to 1 if you have the getservbyport_r function. */
 #ifndef __ANDROID__
-#define HAVE_GETSERVBYPORT_R 1
+/* #undef HAVE_GETSERVBYPORT_R */
 #endif
 
 /* Define to 1 if you have the getservbyname_r function. */

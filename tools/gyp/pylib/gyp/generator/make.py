@@ -156,6 +156,13 @@ cmd_alink_thin = rm -f $@ && $(AR.$(TOOLSET)) crsT $@ $(filter %.o,$^)
 quiet_cmd_link = LINK($(TOOLSET)) $@
 cmd_link = $(LINK.$(TOOLSET)) -o $@ $(GYP_LDFLAGS) $(LDFLAGS.$(TOOLSET)) -Wl,--start-group $(LD_INPUTS) $(LIBS) -Wl,--end-group
 
+quiet_cmd_link_host = LINK($(TOOLSET)) $@
+ifeq ($(shell uname -s),Darwin)
+cmd_link_host = $(LINK.$(TOOLSET)) -o $@ $(GYP_LDFLAGS) $(LDFLAGS.$(TOOLSET)) $(LD_INPUTS) $(LIBS)
+else
+cmd_link_host = $(LINK.$(TOOLSET)) -o $@ $(GYP_LDFLAGS) $(LDFLAGS.$(TOOLSET)) -Wl,--start-group $(LD_INPUTS) $(LIBS) -Wl,--end-group
+endif
+
 # Note: this does not handle spaces in paths
 define xargs
   $(1) $(word 1,$(2))
@@ -171,14 +178,12 @@ OBJ_FILE_LIST := ar-file-list
 
 define create_archive
         rm -f $(1) $(1).$(OBJ_FILE_LIST); mkdir -p `dirname $(1)`
-        $(call write-to-file,$(1).$(OBJ_FILE_LIST),$(filter %.o,$(2)))
-        $(AR.$(TOOLSET)) crs $(1) @$(1).$(OBJ_FILE_LIST)
+        $(AR.$(TOOLSET)) crs $(1) $(filter %.o,$(2))
 endef
 
 define create_thin_archive
         rm -f $(1) $(OBJ_FILE_LIST); mkdir -p `dirname $(1)`
-        $(call write-to-file,$(1).$(OBJ_FILE_LIST),$(filter %.o,$(2)))
-        $(AR.$(TOOLSET)) crsT $(1) @$(1).$(OBJ_FILE_LIST)
+        $(AR.$(TOOLSET)) crsT $(1) $(filter %.o,$(2))
 endef
 
 # We support two kinds of shared objects (.so):
@@ -1838,7 +1843,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
                     " ".join(QuoteSpaces(dep) for dep in link_deps),
                 )
             )
-            if self.toolset == "host" and self.flavor == "android":
+            if self.toolset == "host" and (self.flavor == "android" or self.flavor == "linux"):
                 self.WriteDoCmd(
                     [self.output_binary],
                     link_deps,

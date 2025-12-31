@@ -1,0 +1,18 @@
+#!/bin/sh
+# ohos-configure
+# Wrapper script to configure nodejs-mobile for HarmonyOS (OpenHarmony)
+
+# Look for python3
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON=python3
+else
+  PYTHON=python
+fi
+
+# Check if we are in the right directory
+if [ ! -f "ohos_configure.py" ]; then
+  echo "Error: ohos_configure.py not found. Please run this script from the nodejs-mobile root directory."
+  exit 1
+fi
+
+exec $PYTHON ohos_configure.py "$@"

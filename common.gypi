@@ -233,6 +233,10 @@
             'cflags': [ '-fPIC' ],
             'ldflags': [ '-fPIC' ]
           }],
+          ['OS == "ohos" or is_ohos==1', {
+            'cflags': [ '-fPIC' ],
+            'ldflags': [ '-fPIC' ]
+          }],
         ],
         'msvs_settings': {
           'VCCLCompilerTool': {
@@ -397,14 +401,14 @@
         'cflags': [ '-pthread' ],
         'ldflags': [ '-pthread' ],
       }],
-      [ 'OS in "linux freebsd openbsd solaris android aix os400 cloudabi"', {
+      [ 'OS in "linux freebsd openbsd solaris android aix os400 cloudabi ohos"', {
         'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', '-Wno-enum-constexpr-conversion' ],
         'cflags_cc': [ '-fno-rtti', '-fno-exceptions', '-std=gnu++17' ],
         'defines': [ '__STDC_FORMAT_MACROS' ],
         'ldflags': [ '-rdynamic' ],
         'target_conditions': [
           # The 1990s toolchain on SmartOS can't handle thin archives.
-          ['_type=="static_library" and OS=="solaris"', {
+          ['_type=="static_library" and (OS=="solaris" or OS=="ohos" or is_ohos==1)', {
             'standalone_static_library': 1,
           }],
           ['OS=="openbsd"', {
